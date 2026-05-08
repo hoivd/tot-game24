@@ -1,20 +1,50 @@
 # prompts.py
 
-propose_prompt = '''Input: 2 8 8 14
-Possible next steps:
-2 + 8 = 10 (left: 8 10 14)
-8 / 2 = 4 (left: 4 8 14)
-14 + 2 = 16 (left: 8 8 16)
-2 * 8 = 16 (left: 8 14 16)
-8 - 2 = 6 (left: 6 8 14)
-14 - 8 = 6 (left: 2 6 8)
-14 / 2 = 7 (left: 7 8 8)
-14 - 2 = 12 (left: 8 8 12)
-Input: {input}
-Possible next steps:
-'''
+PROPOSE_PROMPT = '''Generate all valid one-step Game of 24 moves.
+The output must be exhaustive.
+Do not omit valid operations.
 
-value_prompt = '''Evaluate if given numbers can reach 24 (sure/likely/impossible)
+Rules:
+- Pick two numbers.
+- Use + - * /
+- Include both orders for - and /
+- No divide by zero
+- Remove duplicates
+- One line only per move
+
+Format:
+a op b = c (left: remaining numbers)
+
+
+For Example:
+Input: 4 7 8 8
+Possible next steps:
+4 + 7 = 11 (left: 8 8 11)
+8 - 4 = 4 (left: 4 7 8)
+8 / 4 = 2 (left: 2 7 8)
+7 * 8 = 56 (left: 4 8 56)
+
+Input: 4 7 8
+Possible next steps:
+4 + 7 = 11 (left: 8 11)
+7 - 4 = 3 (left: 3 8)
+8 / 4 = 2 (left: 2 7)
+7 * 8 = 56 (left: 4 56)
+
+Input: 3 8
+Possible next steps:
+3 + 8 = 11 (left: 11)
+8 - 3 = 5 (left: 5)
+8 / 3 = 2.666667 (left: 2.666667)
+3 * 8 = 24 (left: 24)
+
+Input: {input}
+
+Possible next steps: 
+'''
+# Explain: "explain the reasoning"
+
+VALUE_PROMPT = '''Evaluate if given numbers can reach 24 (sure/likely/impossible)
 10 14
 10 + 14 = 24
 sure
@@ -52,6 +82,12 @@ impossible
 (1 + 3) * 3 = 12
 1 3 3 are all too small
 impossible
+INPUT:
 {input}
-Response:   
+
+Result:
+
+Response: "finally answer (sure/likely/impossible)"
 '''
+
+# Explain: "explain the reasoning"
